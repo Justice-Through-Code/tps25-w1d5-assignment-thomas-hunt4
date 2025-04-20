@@ -34,6 +34,8 @@ You can either use the should use the requests library or the http.client librar
 
 import requests
 
+
+
 def get_all_breeds():
     """GET request to fetch all dog breeds."""
     try:
@@ -46,21 +48,47 @@ def get_all_breeds():
         return {}
 
 def get_random_image(breed):
+    try:
+        random = requests.get(f"https://dog.ceo/api/breed/{breed}/images/random")
+        random.raise_for_status()
+        data = random.json()
+        return data["message"]
+
+    except requests.exceptions.RequestException:
+        print("Error: Could not fetch random breed image.")
+        return {}
+
+
     """GET request to fetch a random image from a breed."""
     # TODO: Make a request to https://dog.ceo/api/breed/{breed}/images/random
     # TODO: Return the image URL or handle errors
     pass
 
 def get_random_sub_breed_image(breed, sub_breed):
-    """GET request to fetch a random image from a sub-breed."""
-    # TODO: Make a request to https://dog.ceo/api/breed/{breed}/{sub_breed}/images/random
-    # TODO: Return the image URL or handle errors
-    pass
+    try:
+        random = requests.get(f"https://dog.ceo/api/breed/{breed}/{sub_breed}/images/random")
+        random.raise_for_status()
+        data = random.json()
+        return data["message"]
+
+    except requests.exceptions.RequestException:
+        print("Error: Could not fetch random sub breed image.")
+        return {}
+    # """GET request to fetch a random image from a sub-breed."""
+    # # TODO: Make a request to https://dog.ceo/api/breed/{breed}/{sub_breed}/images/random
+    # # TODO: Return the image URL or handle errors
+    # pass
 
 def show_breeds(breeds_dict):
+    breeds = sorted(breeds_dict.keys())
+    for i in range(0, len(breeds), 5):
+    
+        print(", ".join(breeds[i:i+5]))
+
+
     """Prints all available breeds 5 per line."""
-    # TODO: Print all breeds (sorted), 5 per line
-    pass
+    # # TODO: Print all breeds (sorted), 5 per line
+    # pass
 
 def main():
     while True:
